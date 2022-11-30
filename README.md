@@ -64,3 +64,14 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Passport ID
+
+Encryption keys generated successfully.
+Personal access client created successfully.
+Client ID: 1
+Client secret: ydEf86bPMkSz2hFF7ZD7NGQIJjuo0VdsvfeIFOap
+Password grant client created successfully.
+Client ID: 2
+Client secret: 9CvEsPMtlKzm2vKTCkoGyzxwcRfyopijU2FirG1q

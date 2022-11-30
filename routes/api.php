@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::get('/sample', function(){
+    return response()->json([ 'message'=> 'welcome' ]);
+});
+
+Route::group(['middleware' => ['json.response']], function () {
+   
+    Route::post('/user/login', [UserController::class, 'login']);
+    Route::middleware(['auth:api'])->group(function(){
+        Route::get('/user/profile', [UserController::class, 'profile']);
+        Route::post('/user/logout', [UserController::class, 'logout']);
+    });
+    Route::resource('/user', UserController::class);
+
+
 });
