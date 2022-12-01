@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ValidateLoginInput;
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return UserResource::collection(User::all());
     }
 
     /**
@@ -118,7 +119,8 @@ class UserController extends Controller
     {
 
         $user = Auth::user();
-        return response([ 'profile'=> $user ], 200);
+        // return response([ 'profile'=> $user ], 200);
+        return new UserResource($user);
 
     }
 

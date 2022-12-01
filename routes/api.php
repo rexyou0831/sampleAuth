@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthorsController;
+use App\Http\Controllers\BooksController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,6 +33,9 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::middleware(['auth:api'])->group(function(){
         Route::get('/user/profile', [UserController::class, 'profile']);
         Route::post('/user/logout', [UserController::class, 'logout']);
+        Route::apiResource('/user', UserController::class);
+        Route::apiResource('/authors', AuthorsController::class);
+        Route::apiResource('/books', BooksController::class);
     });
     Route::resource('/user', UserController::class);
 
