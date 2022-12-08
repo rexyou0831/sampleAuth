@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\BooksResource;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
-use App\Http\Resources\BooksResource;
 
 class BooksController extends Controller
 {
+    public function __construct(Book $book)
+    {
+        $this->book = $book;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -84,5 +89,15 @@ class BooksController extends Controller
     public function destroy(Book $book)
     {
         //
+    }
+
+    public function typeCounter()
+    {
+
+        $category = Book::select('type', DB::raw("count(*) as total"))->groupBy('type')->pluck('total', 'type')->toArray();
+        $total = array_sum($category);
+
+        return response()->json([ 'total'=> $total, 'category'=> $category ]);
+
     }
 }

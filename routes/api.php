@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthorsController;
+use App\Http\Controllers\BookAuthorController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\UserController;
+use App\Models\BookAuthor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +30,8 @@ Route::get('/sample', function(){
 });
 
 Route::group(['middleware' => ['json.response']], function () {
+
+    Route::get('/bookscounter', [BooksController::class, 'typeCounter']);
    
     Route::post('/user/login', [UserController::class, 'login']);
     Route::middleware(['auth:api'])->group(function(){

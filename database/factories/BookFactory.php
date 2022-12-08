@@ -16,9 +16,13 @@ class BookFactory extends Factory
      */
     public function definition()
     {
+
+        $type = [ 'horror', 'fiction', 'non_fiction', 'history', 'health', 'gym', 'society', 'economic' ];
+
         return [
             'name'=> $this->faker->name,
             'description'=> $this->faker->sentence,
+            'type'=> $type[array_rand($type)],
             'publication_year'=> (string) $this->faker->year
         ];
     }

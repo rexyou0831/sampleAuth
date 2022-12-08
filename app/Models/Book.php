@@ -22,4 +22,9 @@ class Book extends Model
             'author_id'
         );
     }
+
+    public function gym()
+    {
+        return $this->where('type', 'gym');
+    }
 }
