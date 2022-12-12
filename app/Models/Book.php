@@ -23,8 +23,36 @@ class Book extends Model
         );
     }
 
+    public function book_author()
+    {
+        return $this->hasMany(BookAuthor::class, 'book_id', 'id');
+    }
+
     public function gym()
     {
-        return $this->where('type', 'gym');
+        return $this->hasMany(BookAuthor::class, 'book_id', 'id')->where('type', 'gym');
     }
+
+    public function horror()
+    {
+        return $this->book_author()->where('type', 'horror');
+    }
+
+    
+    public function fiction()
+    {
+        return $this->where('type', 'fiction');
+    }
+
+    
+    public function society()
+    {
+        return $this->where('type', 'society');
+    }
+
+    public function history()
+    {
+        return $this->book_author()->where('type', 'history');
+    }
+
 }

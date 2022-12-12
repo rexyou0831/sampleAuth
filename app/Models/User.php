@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+// use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-// use Laravel\Sanctum\HasApiTokens;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -47,4 +49,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Create Random User
+    public function createRandomUser()
+    {
+
+        $response = Http::get('https://randomuser.me/api/');
+
+        $result = $response->collect('results')->first();
+
+        // $last_name = str_replace(' ', '_', $result['name']['last']);
+        $last_name = preg_replace('~ -~', '_', $result['name']['last']);
+
+        $filename = strtolower($result['name']['first'].'_'.$last_name).'.txt';
+
+        Storage::disk('local')->put($filename, json_encode($result));
+
+        return $result;
+    }
+
+
+    // Read Random User
+    public function readRandomUser($filename)
+    {
+        $path = Storage::disk('local')->get($filename);
+
+        $response = json_decode($path);
+
+        return $response;
+    }
 }

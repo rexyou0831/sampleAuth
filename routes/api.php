@@ -32,6 +32,9 @@ Route::get('/sample', function(){
 Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/bookscounter', [BooksController::class, 'typeCounter']);
+    Route::get('/authorcounter', [BooksController::class, 'authorCounter']);
+    Route::get('/create_random_user', [BooksController::class, 'createRandomUser']);
+    Route::get('/read_random_user/{filename}', [BooksController::class, 'readRandomUser']);
    
     Route::post('/user/login', [UserController::class, 'login']);
     Route::middleware(['auth:api'])->group(function(){
