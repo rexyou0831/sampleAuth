@@ -35,6 +35,8 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/authorcounter', [BooksController::class, 'authorCounter']);
     Route::get('/create_random_user', [BooksController::class, 'createRandomUser']);
     Route::get('/read_random_user/{filename}', [BooksController::class, 'readRandomUser']);
+    Route::get('/get_country', [BooksController::class, 'getCountry']);
+    Route::get('/get_specific_country/{code}', [BooksController::class, 'getSpecificCountry']);
    
     Route::post('/user/login', [UserController::class, 'login']);
     Route::middleware(['auth:api'])->group(function(){

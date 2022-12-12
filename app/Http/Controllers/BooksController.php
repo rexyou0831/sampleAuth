@@ -152,4 +152,20 @@ class BooksController extends Controller
         return $response;
     }
 
+    public function getCountry()
+    {
+        $response = $this->user->getCountry();
+
+        return $response;
+    }
+
+    public function getSpecificCountry($code)
+    {
+ 
+        $response = $this->user->getSpecificCountry($code);
+
+        return $response;
+
+    }
+
 }
