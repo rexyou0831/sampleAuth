@@ -3,15 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
 use App\Http\Requests\ValidateLoginInput;
 use App\Http\Requests\ValidateRegisterInput;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -107,7 +118,16 @@ class UserController extends Controller
         if($response){
             // $user = auth()->user();
             $user = Auth::user();
-            $token = $user->createToken(config('app.name'))->accessToken;
+            
+            $request_array = [
+                "grant_type"=> "password",
+                "username"=> $request->email,
+                "password"=> $request->password,
+                "scope"=> ""
+            ];
+            
+            $token = $this->user->internalAPI('oauth/token', 'POST', $request_array);
+
             return response([ 'user'=> $user, 'token'=> $token ], 200);
         }
 
@@ -131,4 +151,5 @@ class UserController extends Controller
 
         return response([ 'message'=> 'success' ], 200);
     }
+    
 }

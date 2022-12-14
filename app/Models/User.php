@@ -4,9 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 // use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -134,6 +136,24 @@ class User extends Authenticatable
 
         return $response;
 
+    }
+
+    public function internalAPI($uri, $method, $request_array)
+    {
+
+        $fixed_array = [
+            "client_id"=> "3",
+            "client_secret"=> "V7GUakzjRViTnIP6zryDymYv5tD0dpLxGvhm0gUq",
+        ];
+
+        $request = Request::create($uri, $method, $fixed_array+$request_array);
+
+        $result = App::handle($request);
+
+        // Capture
+        $data = json_decode($result->getContent());  
+
+        return $data;
     }
 
 }

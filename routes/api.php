@@ -29,6 +29,10 @@ Route::get('/sample', function(){
     return response()->json([ 'message'=> 'welcome' ]);
 });
 
+Route::group([ 'middleware' => ['web'] ], function(){
+    Route::get('/get_access', [UserController::class, 'grandAccess']);
+});
+
 Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/bookscounter', [BooksController::class, 'typeCounter']);
