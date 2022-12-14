@@ -43,6 +43,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/get_specific_country/{code}', [BooksController::class, 'getSpecificCountry']);
    
     Route::post('/user/login', [UserController::class, 'login']);
+    Route::post('/user/refresh_token', [UserController::class, 'refreshToken']);
     Route::middleware(['auth:api'])->group(function(){
         Route::get('/user/profile', [UserController::class, 'profile']);
         Route::post('/user/logout', [UserController::class, 'logout']);

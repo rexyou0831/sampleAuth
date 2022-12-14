@@ -135,6 +135,22 @@ class UserController extends Controller
 
     }
 
+    public function refreshToken(Request $request)
+    {
+
+        if(!$request->refresh_token || empty($request->refresh_token)) return response()->json([ "message"=> "Refresh token missing." ]);
+
+        $request_array = [
+            "grant_type"=> "refresh_token",
+            "refresh_token"=> $request->refresh_token,
+        ];
+
+        $token = $this->user->internalAPI('oauth/token', 'POST', $request_array);
+
+        return response([ "token"=> $token ]);
+
+    }
+
     public function profile()
     {
 
