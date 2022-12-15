@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
 use App\Http\Requests\ValidateLoginInput;
 use App\Http\Requests\ValidateRegisterInput;
-use Illuminate\Support\Facades\Redirect;
+use Laravel\Passport\RefreshTokenRepository;
 
 class UserController extends Controller
 {
@@ -164,6 +160,10 @@ class UserController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
+        $token->delete();
+
+        $refreshTokenRepository = app(RefreshTokenRepository::class);
+        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
 
         return response([ 'message'=> 'success' ], 200);
     }
